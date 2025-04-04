@@ -1,9 +1,13 @@
 package vn.member_managerment.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.member_managerment.exception.AppException;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*")
@@ -25,8 +29,9 @@ public class StudentController {
     }
 
     @PostMapping("")
-    public Student createStudent(@RequestBody Student student) {
-        return studentService.createStudent(student);
+    public ResponseEntity<?> createStudent(@RequestBody Student student) {
+        Student savedStudent = studentService.createStudent(student);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedStudent);
     }
 
     @PutMapping("/{id}")

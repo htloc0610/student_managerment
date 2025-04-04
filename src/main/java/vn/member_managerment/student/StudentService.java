@@ -1,7 +1,9 @@
 package vn.member_managerment.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import vn.member_managerment.exception.AppException;
 import vn.member_managerment.studentInfor.StudentInfoService;
 
 import java.util.List;
@@ -25,8 +27,12 @@ public class StudentService {
     }
 
     public Student createStudent(Student student) {
-        System.out.println("Creating student: " + student);
-        return studentRepository.save(student);
+        try {
+            studentRepository.save(student);
+        } catch (DataIntegrityViolationException ex) {
+            throw new AppException(ex.getMessage());
+        }
+        return student;
     }
 
     public Student updateStudent(Long id, Student studentDetails) {
