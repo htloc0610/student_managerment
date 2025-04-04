@@ -16,12 +16,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AppException.class)
     public ResponseEntity<Map<String, String>> handleAppException(AppException ex) {
         Map<String, String> response = new HashMap<>();
+
+        response.put("code", String.valueOf(HttpStatus.BAD_REQUEST.value()));
         response.put("error", "Application Error");
 
         String originalMessage = ex.getMessage();
         String extractedMessage = extractConstraintError(originalMessage);
-
         response.put("message", extractedMessage);
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -29,8 +31,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         String message = ex.getMostSpecificCause().getMessage();
         String extractedMessage = extractConstraintError(message);
-
         Map<String, String> response = new HashMap<>();
+
+        response.put("code", String.valueOf(HttpStatus.BAD_REQUEST.value()));
         response.put("error", "Database Error");
         response.put("message", extractedMessage);
 
@@ -40,8 +43,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
         Map<String, String> response = new HashMap<>();
+
+        response.put("code", String.valueOf(HttpStatus.BAD_REQUEST.value()));
         response.put("error", "Internal Server Error");
         response.put("message", "An unexpected error occurred. Please try again.");
+
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
