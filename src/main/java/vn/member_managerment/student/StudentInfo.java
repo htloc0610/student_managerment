@@ -1,8 +1,10 @@
 package vn.member_managerment.student;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.*;
 
 import java.util.Date;
 
@@ -32,6 +34,17 @@ public class StudentInfo {
     private Double averageScore;
 
     @Column(name = "date_of_birth", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
+
+    @CreationTimestamp
+    @JsonIgnore
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @JsonIgnore
+    @Column(name = "updated_at", nullable = false)
+    private Date updatedAt;
 }

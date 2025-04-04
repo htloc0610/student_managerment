@@ -24,6 +24,7 @@ public class StudentService {
 
     // Thêm sinh viên mới
     public Student createStudent(Student student) {
+        System.out.println("Creating student: " + student);
         return studentRepository.save(student);
     }
 

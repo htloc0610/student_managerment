@@ -1,8 +1,12 @@
 package vn.member_managerment.student;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.*;
 
 @Entity
 @Table(name = "student")
@@ -27,4 +31,14 @@ public class Student {
     @JsonManagedReference
     @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private StudentInfo studentInfo;
+
+    @CreationTimestamp
+    @JsonIgnore
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private java.util.Date createdAt;
+
+    @UpdateTimestamp
+    @JsonIgnore
+    @Column(name = "updated_at", nullable = false)
+    private java.util.Date updatedAt;
 }
