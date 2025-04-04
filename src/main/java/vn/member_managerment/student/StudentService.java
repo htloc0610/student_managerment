@@ -16,23 +16,19 @@ public class StudentService {
     @Autowired
     private StudentInfoService studentInfoService;
 
-    // Lấy tất cả sinh viên
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
-    // Lấy sinh viên theo ID
     public Optional<Student> getStudentById(Long id) {
         return studentRepository.findById(id);
     }
 
-    // Thêm sinh viên mới
     public Student createStudent(Student student) {
         System.out.println("Creating student: " + student);
         return studentRepository.save(student);
     }
 
-    // Cập nhật thông tin sinh viên
     public Student updateStudent(Long id, Student studentDetails) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy sinh viên với ID: " + id));
@@ -45,13 +41,11 @@ public class StudentService {
             student.setStudent_code(studentDetails.getStudent_code());
         }
 
-        // Gọi service riêng để cập nhật studentInfo
         student.setStudentInfo(studentInfoService.updateStudentInfo(student, studentDetails.getStudentInfo()));
 
         return studentRepository.save(student);
     }
 
-    // Xóa sinh viên
     public void deleteStudent(Long id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found with id " + id));

@@ -8,7 +8,7 @@ public class StudentInfoService {
 
     public StudentInfo updateStudentInfo(Student student, StudentInfo newInfo) {
         if (newInfo == null) {
-            return student.getStudentInfo(); // Không có thông tin mới, giữ nguyên dữ liệu cũ
+            return student.getStudentInfo();
         }
 
         StudentInfo studentInfo = student.getStudentInfo();
