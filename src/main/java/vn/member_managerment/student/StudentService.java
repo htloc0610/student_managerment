@@ -2,6 +2,7 @@ package vn.member_managerment.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vn.member_managerment.studentInfor.StudentInfoService;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,9 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private StudentInfoService studentInfoService;
 
     // Lấy tất cả sinh viên
     public List<Student> getAllStudents() {
@@ -30,9 +34,28 @@ public class StudentService {
 
     // Cập nhật thông tin sinh viên
     public Student updateStudent(Long id, Student studentDetails) {
-        return studentRepository.findById(id).map(student -> {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy sinh viên với ID: " + id));
+
+        if (studentDetails.getStudent_name() != null && !studentDetails.getStudent_name().isEmpty()) {
             student.setStudent_name(studentDetails.getStudent_name());
-            return studentRepository.save(student);
-        }).orElseThrow(() -> new RuntimeException("Student not found with id " + id));
+        }
+
+        if (studentDetails.getStudent_code() != null && !studentDetails.getStudent_code().isEmpty()) {
+            student.setStudent_code(studentDetails.getStudent_code());
+        }
+
+        // Gọi service riêng để cập nhật studentInfo
+        student.setStudentInfo(studentInfoService.updateStudentInfo(student, studentDetails.getStudentInfo()));
+
+        return studentRepository.save(student);
     }
+
+    // Xóa sinh viên
+    public void deleteStudent(Long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found with id " + id));
+        studentRepository.delete(student);
+    }
+
 }

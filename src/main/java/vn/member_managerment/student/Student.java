@@ -7,6 +7,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
+import vn.member_managerment.studentInfor.StudentInfo;
 
 @Entity
 @Table(name = "student")

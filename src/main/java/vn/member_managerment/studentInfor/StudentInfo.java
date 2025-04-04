@@ -1,10 +1,11 @@
-package vn.member_managerment.student;
+package vn.member_managerment.studentInfor;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
+import vn.member_managerment.student.Student;
 
 import java.util.Date;
 
